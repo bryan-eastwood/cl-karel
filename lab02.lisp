@@ -1,0 +1,41 @@
+(load "cl-karel.lisp")
+
+(defclass athlete (robot) ())
+
+(defmethod right ((robot athlete) &optional (n 1))
+  (loop repeat (* n 3) do
+    (left robot)))
+
+(defmacro with-dropping-beepers ((robot) &body body)
+  `(progn
+  ,@(loop for form in body
+          when (eql (car form) 'move) collect `(put-beeper ,robot)
+          collect form)))
+
+(let ((display (make-instance 'display :map "java/maps/maze.map"))
+      (robot (make-instance 'athlete :x 1 :y 1 :direction :east :beepers 100)))
+  (with-dropping-beepers (robot)
+    (left robot)
+    (move robot)
+    (right robot)
+    (move robot)
+    (right robot)
+    (move robot)
+    (left robot)
+    (move robot)
+    (left robot)
+    (move robot)
+    (right robot)
+    (move robot)
+    (move robot)
+    (right robot)
+    (move robot)
+    (left robot)
+    (move robot)
+    (left robot)
+    (move robot)
+    (move robot)
+    (move robot)
+    (move robot)
+    (right robot)
+    (move robot)))
